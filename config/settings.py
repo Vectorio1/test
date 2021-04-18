@@ -5,7 +5,15 @@
 from pathlib import Path
 import os 
 
-#import environ and .env variables
+# BASIC PARAMETERS
+# ------------------------------------------------------------------------------
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# ENVRION PARAMETERS
+# ------------------------------------------------------------------------------
+# import environ and .env variables
 # https://medium.com/swlh/setting-up-a-secure-django-project-repository-with-docker-and-django-environ-4af72ce037f0
 import environ
 env = environ.Env(
@@ -17,20 +25,26 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 DATABASES = { 'default': env.db() }
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+#https://docs.djangoproject.com/en/3.1/ref/settings/#std:setting-ADMINS
+# Consider using an error monitoring system such as Sentry before your inbox is flooded by reports. Sentry can also aggregate logs. https://docs.sentry.io/
+ADMINS = [('Niels Westmeijer', 'v3ctorio@gmail.com')] 
+MANAGERS = [('Niels Westmeijer', 'v3ctorio@gmail.com')]
+
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': lambda request: False if request.is_ajax() else True,
 }
-
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
-
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
 
 # Application definition
 INSTALLED_APPS = [
@@ -104,8 +118,15 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
